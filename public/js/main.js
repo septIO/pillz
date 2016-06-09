@@ -2,32 +2,32 @@
 var app = angular.module('app', []);
 
 var cursor = new Vector(0, 0);
-
-var screenWidth = window.innerWidth
-|| document.documentElement.clientWidth
-|| document.body.clientWidth;
-
-var screenHeight = window.innerHeight
-|| document.documentElement.clientHeight
-|| document.body.clientHeight;
+var me = guid();
 
 document.onmousemove = function (e) {
     cursor = new Vector(e.pageX, e.pageY);
+    socket.emit('move', { 'player': me, 'goal': cursor });
 }
 
 app.controller('mainController', ['$scope', '$interval', function ($scope, $interval) {
 
     $scope.players = [];
-    $scope.me = guid();
     $scope.food = [];
+    $scope.scoreBoard = [];
+    $scope.me;
 
-    socket.emit('connect', {'guid':$scope.me});
+
+    socket.emit('connect', { 'guid': me });
 
     socket.on('gameState', function (data) {
         $scope.spawnFood(data.food);
         $scope.updatePlayers(data.players);
-        console.log(data);
+        $scope.updateScoreBoard(data.players);
+
+        $scope.me = _.find($scope.players, function (pl) { return pl.guid == me });
     });
+
+
 
     $scope.spawnFood = function (foodArray) {
         var food = [];
@@ -38,7 +38,7 @@ app.controller('mainController', ['$scope', '$interval', function ($scope, $inte
             f.size = a.size;
             food.push(f);
         }
-        $scope.food = food;
+        $scope.$apply(function () { $scope.food = food; })
     }
 
     $scope.updatePlayers = function (playerArray) {
@@ -49,11 +49,12 @@ app.controller('mainController', ['$scope', '$interval', function ($scope, $inte
             var a = playerArray[i];
             tempPlayers.push(a);
         }
-        $scope.players = tempPlayers;
+
+        $scope.$apply(function () { $scope.players = tempPlayers; });
     }
 
-    $interval(function () {
-        socket.emit('move', { 'player': $scope.me, 'goal':cursor });
-
-    }, 25);
+    $scope.updateScoreBoard = function(players){
+        $scope.scoreBoard = _.sortBy(players, 'score').reverse().slice(0, 10);
+        
+    }
 }]);

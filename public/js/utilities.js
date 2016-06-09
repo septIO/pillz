@@ -65,7 +65,7 @@ Vector.prototype = {
         return [this.x, this.y, this.z].slice(0, n || 3);
     },
     midpoint: function(size){
-        return this.add(new Vector(this.size / 2, this.size / 2));
+        return this.add(new Vector(size / 2, size / 2));
     },
     clone: function() {
         return new Vector(this.x, this.y, this.z);

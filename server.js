@@ -11,7 +11,6 @@ var port = 1337;
 
 var players = [];
 var food = [];
-
 var gameState = {};
 
 eval(fs.readFileSync('public/js/utilities.js') + '');
@@ -57,8 +56,8 @@ var Player = function (guid) {
         position: new Vector(rand(20, 1000), rand(20, 800)),
         velocity: 0.04,
         size: 100,
-        guid: guid,
-        record: 10000000
+        score: 0,
+        guid: guid
     }
 }
 
@@ -82,19 +81,16 @@ var updateGamestate = function (callable) {
     for (i = food.length - 1; i >= 0; i--) {
         for (j = 0; j < players.length; j++) {
             var p = players[j];
-            if (typeof food[i] === 'undefined') return;
+            if (typeof food[i] === 'undefined') continue;
             var f = new Vector(food[i].position.x, food[i].position.y);
             var dist = p.position.midpoint(p.size).subtract(f).length();
-            if (dist < p.record) {
-                p.record = dist;
-                p.closest = f.midpoint(f.size).clone();
-            }
 
             //console.log(dist < p.size / 2 || p.size > f.size);
 
-            if (dist < p.size / 2 || p.size * .60 > f.size) {
+            if (dist < p.size / 2) {
                 //console.log(dist);
-                players[j].size += p.size>300 ? 0 : 10;
+                players[j].size += p.size > 300 ? 0 : 10;
+                players[j].score += food[i].size;
                 food.splice(i, 1);
                 players[j].velocity += 0;
             }
@@ -104,6 +100,7 @@ var updateGamestate = function (callable) {
     spawnFood();
 
     gameState.players = players;
+
     gameState.food = food;
 
     app.io.broadcast('gameState', gameState);

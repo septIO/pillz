@@ -15,6 +15,13 @@
     <script src="js/main.js"></script>
 </head>
 <body ng-controller="mainController">
+    <h3 class="top-layer">Score: {{me.score}}</h3>
+    <div class="top-layer scoreboard">
+        <p>Score Board</p>
+        <ul>
+            <li ng-repeat="player in scoreBoard" ng-class="{'me':player.guid == me.guid}">{{player.guid}} - {{player.score}}</li>
+        </ul>
+    </div>
     <div class="player" ng-repeat="player in players" ng-style="{'left':player.position.x, 'top':player.position.y, 'height':player.size, 'width':player.size,'border-radius':player.size}"></div>
     <div class="food" ng-repeat="f in food" ng-style="{'left':f.position.x, 'top':f.position.y, 'height':f.size, 'width':f.size, 'border-radius':f.size}"></div>
 </body>
