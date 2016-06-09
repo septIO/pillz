@@ -82,6 +82,7 @@ var updateGamestate = function (callable) {
     for (i = food.length - 1; i >= 0; i--) {
         for (j = 0; j < players.length; j++) {
             var p = players[j];
+            if (typeof food[i].position === 'undefined') return;
             var f = new Vector(food[i].position.x, food[i].position.y);
             var dist = p.position.midpoint(p.size).subtract(f).length();
             if (dist < p.record) {
@@ -114,4 +115,4 @@ var updateGamestate = function (callable) {
 
 setInterval(function () {
     updateGamestate();
-}, 20)
+}, 33)
