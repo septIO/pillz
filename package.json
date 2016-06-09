@@ -1,0 +1,23 @@
+{
+  "name": "pillz",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon server.js"
+  },
+  "author": "Kasper Laukamp",
+  "license": "ISC",
+  "dependencies": {
+    "coffee-script": "^1.10.0",
+    "connect": "^3.4.1",
+    "express.io": "^1.1.13",
+    "path": "^0.12.7",
+    "underscore": "^1.8.3",
+    "victor": "^1.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}

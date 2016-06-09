@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="stylesheets/main.css" />
+    <link rel="stylesheet" href="stylesheets/font-awesome.min.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/jQuery.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/color.js"></script>
+    <script src="js/utilities.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body ng-controller="mainController">
+    <div class="player" ng-repeat="player in players" ng-style="{'left':player.position.x, 'top':player.position.y, 'height':player.size, 'width':player.size,'border-radius':player.size}"></div>
+    <div class="food" ng-repeat="f in food" ng-style="{'left':f.position.x, 'top':f.position.y, 'height':f.size, 'width':f.size, 'border-radius':f.size}"></div>
+</body>
+</html>
