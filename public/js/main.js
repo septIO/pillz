@@ -6,7 +6,6 @@ var me = guid();
 
 document.onmousemove = function (e) {
     cursor = new Vector(e.pageX, e.pageY);
-    socket.emit('move', { 'player': me, 'goal': cursor });
 }
 
 app.controller('mainController', ['$scope', '$interval', function ($scope, $interval) {
@@ -55,6 +54,10 @@ app.controller('mainController', ['$scope', '$interval', function ($scope, $inte
 
     $scope.updateScoreBoard = function(players){
         $scope.scoreBoard = _.sortBy(players, 'score').reverse().slice(0, 10);
-        
     }
+
+    $interval(function () {
+        socket.emit('move', { 'player': me, 'goal': cursor });
+    },33)
+
 }]);
