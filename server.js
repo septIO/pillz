@@ -90,10 +90,10 @@ var updateGamestate = function (callable) {
                 p.closest = f.midpoint(f.size).clone();
             }
 
-            console.log(dist < p.size / 2 || p.size > f.size);
+            //console.log(dist < p.size / 2 || p.size > f.size);
 
             if (dist < p.size / 2 || p.size * .60 > f.size) {
-                console.log(dist);
+                //console.log(dist);
                 players[j].size += p.size>300 ? 0 : 10;
                 food.splice(i, 1);
                 players[j].velocity += 0;
